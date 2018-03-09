@@ -1,0 +1,34 @@
+version: '2'
+
+services:
+  postgres:
+    image: 'postgres:9.6-alpine'
+    environment:
+      POSTGRES_USER: 'duckrails'
+      POSTGRES_PASSWORD: 'duckrails'
+      POSTGRES_DB: 'duckrails'
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'postgres:/var/lib/postgresql/data'
+
+  duckrails:
+    depends_on:
+      - 'postgres'
+    build: .
+    ports:
+      - '80:80'
+    restart: on-failure
+    environment:
+#      SECRET_KEY_BASE: **** To generate a key run: docker-compose run duckrails rake secret ****
+#      PUMA_WORKERS: 4
+#      PUMA_LISTEN_PORT: 80
+       DATABASE_NAME: 'duckrails'
+       DATABASE_USER: 'duckrails'
+       DATABASE_PASSWORD: 'duckrails'
+       DATABASE_HOST: 'postgres'
+       DATABASE_ADAPTER: 'postgresql'
+       DATABASE_ENCODING: 'unicode'
+
+volumes:
+  postgres:
