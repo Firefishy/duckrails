@@ -5,14 +5,17 @@
 #   gem 'sqlite3'
 #
 default: &default
-  adapter: sqlite3
-  encoding: utf8
-  pool: 5
-  timeout: 5000
+  adapter: <%= ENV.fetch("DATABASE_ADAPTER") { 'sqlite3' } %>
+  encoding: <%= ENV.fetch("DATABASE_ENCODING") { 'utf8' } %>
+  pool: <%= ENV.fetch("DATABASE_POOL") { '5' } %>
+  timeout: <%= ENV.fetch("DATABASE_TIMEOUT") { '5000' } %>
+  host: <%= ENV.fetch("DATABASE_HOST") { 'localhost' } %>
+  user: <%= ENV.fetch("DATABASE_USER") { '' } %>
+  password: <%= ENV.fetch("DATABASE_PASSWORD") { '' } %>
 
 development:
   <<: *default
-  database: db/development.sqlite3
+  database: <%= ENV.fetch("DATABASE_NAME") { 'db/development.sqlite3' } %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -26,7 +29,7 @@ test: &test
 
 production:
   <<: *default
-  database: db/production.sqlite3
+  database: <%= ENV.fetch("DATABASE_NAME") { 'db/production.sqlite3' } %>
 
 cucumber:
   <<: *test
