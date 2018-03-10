@@ -8,6 +8,8 @@ WORKDIR /opt/duckrails
 ENV RAILS_ENV production
 ENV RACK_ENV production
 
+ENV RAILS_SERVE_STATIC_FILES true
+
 # Expose container port 80
 EXPOSE 80
 
